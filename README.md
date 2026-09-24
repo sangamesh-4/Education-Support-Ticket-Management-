@@ -1,655 +1,243 @@
-# EduSupport
-## Student Support & Ticket Management System
+EduSupport
 
-EduSupport is a full-stack student support and ticket management system designed for educational institutions.
+Student Support & Ticket Management System
 
-The system allows students to raise support requests for administrative issues such as fees, attendance, ID cards, documents, certificates, and other institutional matters. Support staff can take ownership of requests, assign tickets, manage priorities, process requests through defined statuses, monitor SLA deadlines, and record resolution activity. Managers receive operational visibility into the overall support workload.
+EduSupport is a full-stack student support and ticket management system
+for educational institutions.
 
-The solution was designed as a practical prototype with a focus on usability, clear ownership, traceability, SLA visibility, and a simple implementation that can be demonstrated and extended.
+Students can raise requests for fees, attendance, ID cards, documents,
+certificates, and other administrative matters. Staff can assign,
+prioritize, process, and resolve tickets, while managers get visibility
+into the overall support workload.
 
----
+The prototype focuses on clear ownership, SLA visibility, traceability,
+and a practical implementation that can be demonstrated and extended.
 
-# 1. Project Overview
+1. Project Overview
 
-## 1.1 Problem Statement
+Problem
 
-Educational institutions receive a large number of student support requests covering different administrative areas.
+Student support requests can become difficult to manage when they do not
+have clear ownership, priority, status, SLA tracking, or history.
+Students may not know the state of a request, staff may miss important
+requests, and managers may lack visibility into the workload.
 
-Typical requests include:
+Solution
 
-- Fee-related issues
-- Attendance-related issues
-- ID card requests
-- Document requests
-- Certificate requests
-- Other administrative requests
+EduSupport represents every request as a trackable ticket.
 
-When these requests are handled through informal channels, several operational problems can occur:
+A student creates a ticket with:
 
-- Requests may not have a clear owner.
-- Staff may not know which requests require immediate attention.
-- Students may not know the current status of their request.
-- Pending requests can remain unresolved.
-- SLA deadlines can be missed.
-- Managers may not have visibility into the support workload.
-- There may be no reliable history of what happened to a request.
+Category
 
-EduSupport addresses these problems by representing every support request as a trackable ticket.
+Subject
 
-The ticket becomes the central unit of the support workflow.
+Description
 
----
+Priority
 
-## 1.2 Proposed Solution
-
-EduSupport provides a centralized ticket management workflow.
-
-A student creates a ticket containing:
-
-- Category
-- Subject
-- Description
-- Priority
-
-The system automatically records:
-
-- Ticket number
-- Student ownership
-- Creation timestamp
-- SLA duration
-- Due timestamp
-- Initial status
-
-Staff members can then:
-
-- View tickets
-- Assign tickets
-- Change priority
-- Process tickets
-- Put tickets into pending state
-- Resolve tickets
-- Close tickets
-
-Managers can monitor the overall support operation using dashboard metrics.
-
-Every important ticket operation is recorded in an activity history.
-
-The overall workflow is:
-
-```text
-Student
-   |
-   | Creates request
-   v
-Ticket Created
-   |
-   v
-OPEN
-   |
-   | Assignment
-   v
-ASSIGNED
-   |
-   v
-IN_PROGRESS
-   |
-   | Waiting for information/action
-   v
-PENDING
-   |
-   v
-RESOLVED
-   |
-   v
-CLOSED
-1.3 Project Objectives
-
-The main objectives of the system are:
-
-Provide students with a simple way to raise support requests.
-Give support staff clear ownership of requests.
-Allow tickets to be prioritized based on urgency.
-Track SLA deadlines for support requests.
-Provide a clear ticket lifecycle.
-Support a pending-action workflow.
-Maintain an activity history for ticket changes.
-Track resolution and closure.
-Provide management-level visibility.
-Prevent unauthorized access to tickets and operations.
-Persist ticket information using PostgreSQL.
-Provide a simple frontend connected to a real backend API.
-1.4 Key Features
-Authentication
-JWT-based login
-Role-aware access
-Protected API endpoints
-Password hashing
-Ticket Management
-Ticket creation
-Ticket listing
-Ticket details
-Ticket assignment
-Priority management
-Status management
-SLA Management
-Priority-based SLA
-Automatic due-date calculation
-Overdue ticket detection
-Activity History
-Ticket creation activity
-Assignment activity
-Status change activity
-Priority change activity
-Dashboard
-Total tickets
-Open tickets
-Assigned tickets
-Unassigned tickets
-In-progress tickets
-Pending tickets
-Resolved tickets
-Closed tickets
-Overdue tickets
-Urgent tickets
-Role-Based Experience
-Student dashboard
-Staff support queue
-Manager dashboard
-2. User Roles & Permissions
-
-The system uses three primary roles:
-
-STUDENT
-STAFF
-MANAGER
-
-Each role has different responsibilities.
-
-2.1 Student
-
-The Student is the requester.
-
-Students can:
-
-Log in
-Create support tickets
-Select a category
-Select priority
-Provide a subject
-Provide a description
-View their own tickets
-Open ticket details
-View ticket status
-View priority
-View SLA
-View due date
-View activity history
-
-Students cannot:
-
-Assign tickets
-Change ticket priority after creation
-Change ticket status through staff operations
-Access another student's ticket
-
-The student dashboard is focused on request visibility and tracking.
-
-2.2 Staff
-
-Staff members are responsible for processing support requests.
+The system automatically records the ticket number, owner, creation
+time, SLA, due time, and initial status.
 
 Staff can:
 
-Log in
-View the support queue
-View all tickets
-Open ticket details
-Assign tickets
-Change priority
-Change status
-Review SLA information
+View and assign tickets
+
+Change priority and status
+
+Process requests
+
+Mark tickets as pending
+
+Resolve and close tickets
+
 Review activity history
-Process tickets through the lifecycle
 
-The Staff dashboard is focused on operational ticket management.
+Managers can view operational metrics and intervene in ticket
+processing.
 
-2.3 Manager
+Key Features
 
-Managers provide operational oversight.
+JWT authentication and role-based access
 
-Managers can:
+Student, Staff, and Manager dashboards
 
-Log in
-View all tickets
-View dashboard metrics
-Monitor open requests
-Monitor pending requests
-Monitor resolved requests
-Monitor closed requests
-Monitor overdue tickets
-Assign tickets
-Change priority
-Change status
-Review ticket activity history
+Ticket creation and tracking
 
-The Manager interface shares the operational ticket controls with Staff because managers may need to intervene in ticket processing.
+Ticket assignment and ownership
 
-The main additional responsibility is management visibility through the dashboard metrics.
+Priority management
 
-2.4 Permission Matrix
-Operation	Student	Staff	Manager
-Login	Yes	Yes	Yes
-Create ticket	Yes	No	No
-View own tickets	Yes	Yes	Yes
-View all tickets	No	Yes	Yes
-View ticket activity	Own tickets	Yes	Yes
-Assign ticket	No	Yes	Yes
-Change priority	No	Yes	Yes
-Change status	No	Yes	Yes
-View dashboard metrics	No	Yes	Yes
-Assign to staff	No	Yes	Yes
-3. Ticket Management Workflow
-3.1 Ticket Categories
+SLA and due-date calculation
 
-The system supports the following categories:
+Overdue ticket detection
+
+Pending workflow
+
+Resolution and closure tracking
+
+Activity history
+
+Management dashboard
+
+Backend validation and authorization
+
+2. User Roles & Permissions
+
+Operation            Student   Staff   Manager
+
+Login                    Yes     Yes       Yes
+Create ticket            Yes      No        No
+View own tickets         Yes     Yes       Yes
+View all tickets          No     Yes       Yes
+View activity            Own     Yes       Yes
+Assign ticket             No     Yes       Yes
+Change priority           No     Yes       Yes
+Change status             No     Yes       Yes
+View dashboard            No     Yes       Yes
+
+Student
+
+Students can create and track their own support requests, including
+status, priority, SLA, due date, and activity history.
+
+Students cannot assign tickets, change staff-controlled ticket fields,
+or access another student's ticket.
+
+Staff
+
+Staff manage the support queue, assign tickets, update priority and
+status, review SLA information, and process requests through the ticket
+lifecycle.
+
+Manager
+
+Managers have operational visibility through dashboard metrics and can
+also review and intervene in ticket processing.
+
+3. Ticket Workflow
+
+Categories
 
 FEES
+
 ATTENDANCE
+
 ID_CARD
+
 DOCUMENTS
+
 CERTIFICATES
+
 OTHER
 
-These categories represent the common administrative support areas described in the problem.
+Status Lifecycle
 
-The OTHER category allows the system to handle requests that do not fit the predefined categories.
+OPEN → ASSIGNED → IN_PROGRESS → PENDING → RESOLVED → CLOSED
 
-3.2 Ticket Creation
+Status        Meaning
 
-A student creates a ticket by providing:
+OPEN          Ticket created but not assigned
+ASSIGNED      Ticket assigned to staff
+IN_PROGRESS   Staff is actively working on it
+PENDING       Waiting for information or action
+RESOLVED      Requested support action completed
+CLOSED        Support lifecycle completed
 
-Category
-Subject
-Description
-Priority
+Assigning an OPEN ticket automatically moves it to ASSIGNED.
 
-When the ticket is created, the backend automatically determines:
+PENDING is used when progress depends on information or action from
+the student or another party.
 
-Ticket Number
-Student
-Status
-SLA Hours
-Creation Time
-Due Time
+Priority & SLA
 
-New tickets start with:
+Priority          SLA
 
-Status = OPEN
+LOW          72 hours
+MEDIUM       48 hours
+HIGH         24 hours
+URGENT        8 hours
 
-The student who creates the ticket becomes the owner.
-
-3.3 Status Lifecycle
-
-The system supports:
-
-OPEN
-ASSIGNED
-IN_PROGRESS
-PENDING
-RESOLVED
-CLOSED
-
-The normal operational lifecycle is:
-
-OPEN
-  |
-  v
-ASSIGNED
-  |
-  v
-IN_PROGRESS
-  |
-  v
-PENDING
-  |
-  v
-RESOLVED
-  |
-  v
-CLOSED
-
-The implementation allows Staff and Managers to update ticket status according to the support workflow.
-
-3.4 Status Definitions
-OPEN
-
-The ticket has been created but has not yet been assigned to a staff member.
-
-ASSIGNED
-
-The ticket has been assigned to a support staff member.
-
-Assignment automatically moves an OPEN ticket to ASSIGNED.
-
-IN_PROGRESS
-
-The assigned staff member is actively working on the request.
-
-PENDING
-
-The request cannot currently proceed because some information or action is required.
-
-Examples:
-
-Waiting for information from the student
-Waiting for a document
-Waiting for another department
-RESOLVED
-
-The requested support action has been completed.
-
-The system records the resolution timestamp.
-
-CLOSED
-
-The ticket has completed its support lifecycle.
-
-The system records the closure timestamp.
-
-3.5 Priority
-
-The supported priorities are:
-
-LOW
-MEDIUM
-HIGH
-URGENT
-
-Priority indicates how quickly the support team should process the request.
-
-3.6 SLA Rules
-
-Each priority has a defined SLA.
-
-Priority	SLA
-LOW	72 hours
-MEDIUM	48 hours
-HIGH	24 hours
-URGENT	8 hours
-
-The SLA is calculated when the ticket is created.
-
-The calculation is:
+The due time is calculated when the ticket is created:
 
 Due Time = Created Time + SLA Hours
 
-For example:
+A ticket is considered overdue when its due time has passed and its
+status is not RESOLVED or CLOSED.
 
-Priority: HIGH
-SLA: 24 hours
+Overdue tickets are surfaced through the dashboard.
 
-The ticket receives a due time exactly 24 hours after creation.
+Escalation
 
-3.7 Ageing
+The prototype uses lightweight escalation rather than background workers
+or notification infrastructure.
 
-Ticket ageing is represented through the time between:
+Managers can identify overdue tickets from the dashboard and intervene
+through assignment or status updates.
 
-Created Time
+A production version could add automatic escalation, SLA warnings,
+notifications, and reassignment.
 
-and:
+4. Architecture
 
-Current Time
+┌─────────────────────────────┐
+│          Frontend           │
+│       React + Vite          │
+│                             │
+│ Student / Staff / Manager   │
+│ Dashboards & Ticket UI      │
+└──────────────┬──────────────┘
+               │ REST / JSON
+               ▼
+┌─────────────────────────────┐
+│           Backend           │
+│           FastAPI           │
+│                             │
+│ Auth / RBAC                 │
+│ Ticket Management           │
+│ Assignment / SLA            │
+│ Activity / Dashboard        │
+└──────────────┬──────────────┘
+               │ SQLAlchemy
+               ▼
+┌─────────────────────────────┐
+│         PostgreSQL          │
+│                             │
+│ users                       │
+│ tickets                     │
+│ ticket_activities           │
+└─────────────────────────────┘
 
-The SLA due time provides a practical boundary for identifying tickets that require attention.
+Technology Stack
 
-The dashboard identifies tickets whose SLA has already expired.
+Frontend - React - Vite - JavaScript - CSS - Fetch API
 
-3.8 Overdue Tickets
-
-A ticket is considered overdue when:
-
-Current Time > Due Time
-
-and the ticket status is not:
-
-RESOLVED
-CLOSED
-
-Overdue tickets are included in the dashboard summary.
-
-This allows Staff and Managers to identify requests that have exceeded their expected SLA.
-
-3.9 Pending Workflow
-
-PENDING is used when support cannot continue immediately.
-
-For example:
-
-Student requests certificate
-        |
-        v
-Staff reviews request
-        |
-        v
-Required information missing
-        |
-        v
-PENDING
-        |
-        v
-Information received
-        |
-        v
-IN_PROGRESS
-        |
-        v
-RESOLVED
-
-The prototype does not introduce a separate notification system for pending requests.
-
-3.10 Escalation
-
-The prototype uses a lightweight escalation approach.
-
-Instead of implementing background workers or automated notifications, overdue tickets are surfaced through the dashboard.
-
-Managers can then review and intervene.
-
-This approach keeps the implementation simple while still demonstrating escalation visibility.
-
-A production version could add:
-
-Automatic escalation
-Manager notifications
-SLA warning notifications
-Automatic reassignment
-Escalation levels
-4. System Architecture
-4.1 Architecture Overview
-
-EduSupport uses a three-layer architecture:
-
-┌─────────────────────────────────────┐
-│            FRONTEND                 │
-│                                     │
-│ React + Vite                        │
-│                                     │
-│ Student Dashboard                   │
-│ Staff Dashboard                     │
-│ Manager Dashboard                   │
-│ Ticket Creation                     │
-│ Ticket Details                      │
-│ Activity History                    │
-└──────────────────┬──────────────────┘
-                   |
-                   | REST / JSON
-                   |
-                   v
-┌─────────────────────────────────────┐
-│             BACKEND                 │
-│                                     │
-│ FastAPI                             │
-│                                     │
-│ Authentication                      │
-│ Authorization                       │
-│ Ticket Management                   │
-│ Assignment                          │
-│ Status Workflow                     │
-│ Priority & SLA                      │
-│ Activity History                    │
-│ Dashboard                           │
-└──────────────────┬──────────────────┘
-                   |
-                   | SQLAlchemy
-                   |
-                   v
-┌─────────────────────────────────────┐
-│             DATABASE                │
-│                                     │
-│ PostgreSQL                          │
-│                                     │
-│ users                               │
-│ tickets                             │
-│ ticket_activities                   │
-└─────────────────────────────────────┘
-4.2 Technology Stack
-Frontend
-React
-Vite
-JavaScript
-CSS
-Fetch API
-Backend
-Python
-FastAPI
-SQLAlchemy
-Pydantic
-JWT
-Passlib
+Backend - Python - FastAPI - SQLAlchemy - Pydantic - JWT - Passlib /
 Bcrypt
-Database
-PostgreSQL
-Infrastructure
-Docker
-Docker Compose
-4.3 Why These Technologies?
-React + Vite
 
-React provides a component-based frontend suitable for implementing separate role-aware dashboards and interactive ticket controls.
+Database & Infrastructure - PostgreSQL - Docker - Docker Compose
 
-Vite provides a lightweight development environment.
+Why This Stack?
 
-FastAPI
+React provides a simple component-based UI.
 
-FastAPI provides:
+FastAPI provides REST APIs, validation, dependency injection, and
+automatic API documentation.
 
-REST API development
-Request validation
-Automatic API documentation
-Dependency injection
-Easy integration with SQLAlchemy
-PostgreSQL
+PostgreSQL fits the relational nature of users, tickets, and
+activities.
 
-The problem is relational in nature.
+SQLAlchemy provides the ORM layer.
 
-Tickets have relationships with:
+JWT provides authentication for protected API requests.
 
-Students
-Staff
-Activities
+Docker provides a consistent local PostgreSQL environment.
 
-PostgreSQL provides reliable relational persistence for these relationships.
-
-SQLAlchemy
-
-SQLAlchemy provides an ORM layer between the Python backend and PostgreSQL.
-
-JWT
-
-JWT provides a simple mechanism for authenticating API requests and carrying the authenticated user's role.
-
-4.4 Project Structure
-Edu Support/
-│
-├── backend/
-│   │
-│   ├── app/
-│   │   │
-│   │   ├── core/
-│   │   │   ├── config.py
-│   │   │   ├── database.py
-│   │   │   ├── dependencies.py
-│   │   │   └── security.py
-│   │   │
-│   │   ├── models/
-│   │   │   ├── user.py
-│   │   │   ├── ticket.py
-│   │   │   └── ticket_activity.py
-│   │   │
-│   │   ├── schemas/
-│   │   │   ├── auth.py
-│   │   │   ├── user.py
-│   │   │   ├── ticket.py
-│   │   │   └── ticket_activity.py
-│   │   │
-│   │   ├── routers/
-│   │   │   ├── auth.py
-│   │   │   ├── tickets.py
-│   │   │   └── dashboard.py
-│   │   │
-│   │   └── main.py
-│   │
-│   ├── requirements.txt
-│   └── venv/
-│
-├── frontend/
-│   │
-│   ├── src/
-│   │   ├── App.jsx
-│   │   ├── App.css
-│   │   └── index.css
-│   │
-│   ├── package.json
-│   └── vite.config.js
-│
-├── docker-compose.yml
-└── README.md
-4.5 Data Flow
-
-A typical ticket request flows through the system as follows:
-
-Student Browser
-      |
-      | POST /tickets/
-      v
-FastAPI
-      |
-      | Validate JWT
-      |
-      | Validate request
-      |
-      | Determine SLA
-      |
-      | Create Ticket
-      |
-      | Create Activity
-      v
-SQLAlchemy
-      |
-      v
-PostgreSQL
-      |
-      v
-FastAPI Response
-      |
-      v
-React Dashboard
 5. Database Design
-5.1 Users Table
 
-The users table stores system users.
+Users
 
-Fields:
+Stores system users and their roles.
 
 id
 name
@@ -659,9 +247,7 @@ role
 department
 created_at
 
-The role field determines the user's permissions.
-
-Supported values:
+Roles:
 
 STUDENT
 STAFF
@@ -669,11 +255,9 @@ MANAGER
 
 Passwords are stored as hashes.
 
-5.2 Tickets Table
+Tickets
 
-The tickets table stores support requests.
-
-Fields:
+Stores support requests.
 
 id
 ticket_number
@@ -691,22 +275,12 @@ resolved_at
 closed_at
 sla_hours
 
-Important relationships:
+student_id identifies the ticket owner and assigned_to identifies
+the current staff owner.
 
-student_id
-    ↓
-users.id
+Ticket Activities
 
-and:
-
-assigned_to
-    ↓
-users.id
-5.3 Ticket Activities Table
-
-The ticket_activities table records events associated with tickets.
-
-Fields:
+Stores important ticket events.
 
 id
 ticket_id
@@ -715,492 +289,304 @@ activity_type
 description
 created_at
 
-This creates a chronological audit trail.
+This provides a chronological activity trail for creation, assignment,
+status changes, and priority changes.
 
-For example:
+Relationships
 
-Ticket Created
-      ↓
-Ticket Assigned
-      ↓
-Status Changed
-      ↓
-Priority Changed
-      ↓
-Status Changed
-5.4 Database Relationships
+Users
+ ├── student_id ──┐
+ └── assigned_to ─┤
+                  ▼
+               Tickets
+                  │
+                  │ ticket_id
+                  ▼
+          Ticket Activities
 
-The basic relationship is:
+6. Backend & API
 
-                    ┌─────────────┐
-                    │    USERS    │
-                    └──────┬──────┘
-                           │
-             ┌─────────────┴─────────────┐
-             │                           │
-       student_id                   assigned_to
-             │                           │
-             └─────────────┬─────────────┘
-                           │
-                           v
-                    ┌─────────────┐
-                    │   TICKETS   │
-                    └──────┬──────┘
-                           │
-                       ticket_id
-                           │
-                           v
-                  ┌──────────────────┐
-                  │ TICKET_ACTIVITIES│
-                  └──────────────────┘
-6. Backend & API Design
-6.1 Authentication
-
-Authentication is handled by:
+Authentication
 
 POST /auth/login
-
-The login request contains:
-
-email
-password
 
 The backend:
 
 Finds the user.
+
 Verifies the password hash.
-Creates a JWT.
-Includes the user ID and role in the token.
+
+Creates a JWT containing the user ID and role.
+
 Returns the access token.
 
-The frontend uses this token for protected requests.
+Protected requests use the token for authentication.
 
-6.2 Authorization
+Authorization
 
-Protected endpoints use JWT validation.
+Permissions are enforced at the backend API level.
 
-The backend identifies the current user from the token.
-
-Role restrictions are applied at the API level.
-
-For example:
+Examples:
 
 require_roles("STUDENT")
 
-is used for student-only ticket creation.
-
-Staff/Manager operations use:
+for student-only operations and:
 
 require_roles("STAFF", "MANAGER")
 
-This ensures role restrictions are enforced by the backend rather than only by the frontend.
+for staff/manager operations.
 
-6.3 Ticket APIs
-Create Ticket
-POST /tickets/
+Students can only retrieve tickets they own.
 
-Used by students.
+Ticket APIs
 
-Request example:
+POST   /tickets/
+GET    /tickets/
+GET    /tickets/{ticket_id}
+PATCH  /tickets/{ticket_id}
+GET    /tickets/{ticket_id}/activities
 
-{
-  "category": "DOCUMENTS",
-  "subject": "Bonafide certificate request",
-  "description": "I need a bonafide certificate for my internship application.",
-  "priority": "HIGH"
-}
+Students create tickets through POST /tickets/.
 
-The backend automatically creates:
+Staff and Managers can update:
 
-Ticket Number
-Student ID
-OPEN status
-SLA
-Due Date
-Creation Activity
-List Tickets
-GET /tickets/
+Status
 
-Behavior:
+Priority
 
-Student
-→ Only own tickets
+Assignment
 
-Staff
-→ All tickets
+Dashboard API
 
-Manager
-→ All tickets
-Get Ticket
-GET /tickets/{ticket_id}
-
-Returns detailed ticket information.
-
-Students are only allowed to retrieve tickets they own.
-
-Get Activities
-GET /tickets/{ticket_id}/activities
-
-Returns the activity history for the ticket.
-
-Update Ticket
-PATCH /tickets/{ticket_id}
-
-Staff and managers can update:
-
-status
-priority
-assigned_to
-6.4 Dashboard API
 GET /dashboard/summary
 
-Returns:
+Returns counts for:
 
-{
-  "total_tickets": 0,
-  "open_tickets": 0,
-  "assigned_tickets": 0,
-  "unassigned_tickets": 0,
-  "in_progress_tickets": 0,
-  "pending_tickets": 0,
-  "resolved_tickets": 0,
-  "closed_tickets": 0,
-  "overdue_tickets": 0,
-  "urgent_tickets": 0
-}
+Total tickets
 
-These values are calculated from the actual ticket records.
+Open
 
-6.5 Backend Validation
+Assigned
+
+Unassigned
+
+In progress
+
+Pending
+
+Resolved
+
+Closed
+
+Overdue
+
+Urgent
+
+Backend Validation
 
 The backend validates:
 
 Authentication
+
 Role permissions
+
 Ticket existence
+
 Student ticket ownership
-Priority values
-Status values
+
+Valid priority
+
+Valid status
+
 Assigned user existence
+
 Assigned user role
 
-Examples:
+A ticket can only be assigned to a STAFF user.
 
-Invalid Priority
+7. Frontend
 
-Rejected if priority is not:
+Login
 
-LOW
-MEDIUM
-HIGH
-URGENT
-Invalid Status
+Users enter their email and password. After successful authentication,
+the frontend reads the role from the JWT and loads the appropriate
+dashboard.
 
-Rejected if status is not:
+Student Dashboard
 
-OPEN
-ASSIGNED
-IN_PROGRESS
-PENDING
-RESOLVED
-CLOSED
-Invalid Assignment
+Students can:
 
-A ticket cannot be assigned to:
+View their tickets
 
-STUDENT
-MANAGER
+Create new requests
 
-Only a STAFF user can be assigned.
+View status and priority
 
-7. Frontend Design
-7.1 Login Screen
+View SLA and due time
 
-The application starts with a login screen.
+View ticket details
 
-Users enter:
+View activity history
 
-Email
-Password
+Staff Dashboard
 
-After successful authentication, the frontend reads the role from the JWT and loads the corresponding dashboard experience.
+Staff can view the support queue and manage:
 
-The frontend stores the session token in sessionStorage.
+Assignment
 
-7.2 Student Dashboard
+Status
 
-The Student dashboard displays:
+Priority
 
-Student role
-Student email
-Ticket list
-Ticket status
-Ticket priority
-Ticket category
-Creation time
-Ticket details
+SLA information
+
+Ticket activity
+
+Manager Dashboard
+
+Managers can view operational metrics and inspect:
+
+Tickets
+
+Assignment
+
+Priority
+
+Status
+
+SLA
+
+Due date
+
 Activity history
 
-Students can also click:
+Ticket Details
 
-+ New request
+The ticket detail view displays:
 
-to create a ticket.
+Ticket number
 
-7.3 New Ticket Form
-
-The ticket form contains:
-
-Category
 Subject
+
 Description
-Priority
 
-Example:
-
-Category: DOCUMENTS
-Subject: Bonafide certificate request
-Description: I need a bonafide certificate for my internship application.
-Priority: HIGH
-
-After submission, the ticket is sent to the FastAPI backend and persisted in PostgreSQL.
-
-7.4 Staff Dashboard
-
-The Staff dashboard provides:
-
-Total Tickets
-Open
-In Progress
-Pending
-Resolved
-Overdue
-
-The support queue displays:
-
-Ticket Number
-Subject
 Category
-Created Time
+
 Status
+
 Priority
 
-Staff can select a ticket to open its detail panel.
+Assigned staff
 
-7.5 Manager Dashboard
-
-The Manager dashboard provides the same core operational ticket view but is intended for management oversight.
-
-The dashboard exposes:
-
-Total Tickets
-Open
-In Progress
-Pending
-Resolved
-Overdue
-
-The manager can also inspect:
-
-Ticket details
-Assignment
-Priority
-Status
 SLA
+
+Due time
+
 Activity history
-7.6 Ticket Details
 
-The ticket details panel shows:
+8. Product Decisions & Trade-offs
 
-Ticket Number
-Subject
-Status
-Priority
-Description
-Category
-Assigned Staff
-SLA
-Due Time
+Assumptions
 
-For Staff and Managers, the panel additionally provides controls for:
+The student who creates a ticket is its owner.
 
-Status
-Priority
-Assignment
-7.7 Activity Timeline
+A ticket has one assigned staff member at a time.
 
-The activity section shows the history of important changes.
+Managers can intervene in ticket operations.
 
-Example:
+SLA starts when the ticket is created.
 
-Status Changed
-Status changed from OPEN to ASSIGNED
+PENDING is a temporary workflow state.
 
-Status Changed
-Status changed from ASSIGNED to IN_PROGRESS
+Key Decisions
 
-Status Changed
-Status changed from IN_PROGRESS to PENDING
+Separate activity table:
+Ticket history is stored separately so one ticket can have many activity
+records.
 
-Status Changed
-Status changed from PENDING to RESOLVED
+Backend authorization:
+Permissions are enforced by the API rather than relying only on frontend
+controls.
 
-This gives users a clear history of how the ticket progressed.
+Priority-driven SLA:
+Priority directly determines the expected response window.
 
-8. Product Decisions, Assumptions & Trade-offs
-8.1 Product Assumptions
-Assumption 1 — One Student Owns the Request
+Database-driven dashboard:
+Dashboard metrics are calculated from actual ticket records rather than
+static frontend values.
 
-The student who creates the ticket is considered its owner.
+Trade-offs
 
-Assumption 2 — One Staff Owner
+The prototype uses a single FastAPI backend instead of microservices
+because it is easier to build, test, and explain for this scope.
 
-A ticket can have one assigned staff member at a time.
+Escalation is dashboard-based rather than automated to avoid unnecessary
+scheduler/worker infrastructure.
 
-Assumption 3 — Manager Oversight
+Database tables are initialized with SQLAlchemy for the prototype. A
+production deployment should use migrations such as Alembic.
 
-Managers are allowed to intervene in ticket operations.
+The demo assignment control uses the configured demonstration staff
+member. A production system would load available staff dynamically from
+an API.
 
-Assumption 4 — SLA Begins at Creation
+Current Limitations
 
-The SLA starts when the ticket is created.
+No email, SMS, or WhatsApp notifications
 
-Assumption 5 — Pending Is Temporary
-
-Pending indicates that the ticket is waiting for information/action and is not a final state.
-
-8.2 Design Decisions
-Separate Activity Table
-
-Activity history is stored separately rather than inside the ticket record.
-
-Reason:
-
-One ticket
-    ↓
-Many activities
-
-This provides a cleaner audit trail.
-
-Backend Authorization
-
-Permissions are enforced by the backend.
-
-This prevents a user from bypassing frontend restrictions by directly calling APIs.
-
-Priority-Driven SLA
-
-SLA is tied directly to priority.
-
-This makes the priority field operational rather than purely informational.
-
-Dashboard Metrics
-
-Management metrics are calculated from database records.
-
-This avoids static or mock values in the frontend.
-
-8.3 Trade-offs
-Simple Architecture vs Distributed Architecture
-
-A monolithic FastAPI backend was chosen instead of microservices.
-
-Advantage:
-
-Easier to build
-Easier to test
-Easier to explain
-Lower infrastructure overhead
-
-Trade-off:
-
-Less independent scalability than a distributed architecture
-Manual Escalation vs Automated Escalation
-
-Manual manager intervention was selected for the prototype.
-
-Advantage:
-
-No scheduler required
-No worker infrastructure required
-Easy to demonstrate
-
-Trade-off:
-
-No automatic notifications or reassignment
-Prototype Database Initialization
-
-The prototype uses:
-
-Base.metadata.create_all(bind=engine)
-
-to create tables.
-
-For production, a migration system such as Alembic would be more appropriate.
-
-Fixed Demo Staff Assignment
-
-The current frontend uses the configured demonstration staff member in the assignment control.
-
-A production system would dynamically load available staff from an API.
-
-8.4 Limitations
-
-Current limitations include:
-
-No email notification system
-No SMS/WhatsApp integration
 No automated escalation worker
+
 No dynamic staff directory
+
 No advanced analytics
+
 No mobile application
-No real-time WebSocket communication
+
+No WebSocket-based real-time updates
+
 No production migration framework
+
 No external institutional integrations
 
-These are intentional scope decisions for the prototype.
+Future Improvements
 
-8.5 Future Improvements
+SLA warning and overdue notifications
 
-Potential production improvements include:
+Automated escalation and reassignment
 
-Notifications
-Assignment notification
-Pending notification
-Resolution notification
-SLA warning
-Overdue notification
-Automated Escalation
-Automatic manager escalation
-Escalation levels
-Automatic reassignment
-Reporting
-Average resolution time
-SLA compliance
-Ticket ageing buckets
-Staff workload
-Category trends
-Monthly ticket volume
-Production Hardening
+Staff workload and resolution-time analytics
+
+SLA compliance reporting
+
+Ticket ageing reports
+
 Alembic migrations
-Environment variables for secrets
-HTTPS
-Rate limiting
-Security logging
+
+Environment-based secrets
+
+Rate limiting and security logging
+
 Production deployment configuration
-9. Testing, Validation & Running the Project
-9.1 Validation Performed
 
-The complete application was tested through actual browser interaction and API testing.
+Institutional system integrations
 
-The following workflows were validated.
+9. Testing & Validation
+
+The application was tested through actual browser interaction and API
+testing.
 
 Authentication
-Student Login     → PASS
-Staff Login       → PASS
-Manager Login     → PASS
-Protected APIs    → PASS
+
+Student login --- PASS
+
+Staff login --- PASS
+
+Manager login --- PASS
+
+Protected APIs --- PASS
+
 Student Workflow
+
 Login
   ↓
 View Tickets
@@ -1211,9 +597,8 @@ Ticket Persisted
   ↓
 Ticket Appears in Dashboard
 
-Validated successfully.
-
 Staff Workflow
+
 Login
   ↓
 View Support Queue
@@ -1230,303 +615,184 @@ RESOLVED
   ↓
 CLOSED
 
-Validated successfully.
-
 Manager Workflow
+
 Login
   ↓
-View Management Dashboard
+View Dashboard
   ↓
 View Metrics
   ↓
 View Tickets
   ↓
-Open Ticket
+Inspect Ticket
   ↓
 View Activity History
 
-Validated successfully.
+Edge Cases Tested
 
-9.2 Edge Cases Tested
-Unauthenticated Access
+Unauthenticated access
 
-Protected endpoints reject requests without valid authentication.
+Student ownership restrictions
 
-Student Ticket Ownership
+Invalid status
 
-A student cannot access another student's ticket.
+Invalid priority
 
-Invalid Status
+Non-existent ticket
 
-Invalid status values are rejected.
+Invalid assignment
 
-Invalid Priority
+Assignment to a non-staff user
 
-Invalid priority values are rejected.
+Priority-based SLA calculation
 
-Invalid Assignment
+Activity history after ticket changes
 
-Assignment to non-existent users is rejected.
+10. Running the Project
 
-Assignment to users who are not Staff is rejected.
-
-Ticket Not Found
-
-Requests for non-existent tickets return:
-
-404 Ticket not found
-SLA Calculation
-
-Priority-specific SLA values were verified.
-
-Activity History
-
-Status and assignment changes were verified through the activity timeline.
-
-9.3 Demonstration Flow
-
-A recommended demonstration can be completed using one ticket.
-
-Step 1 — Student
-
-Login:
-
-student@edusupport.com
-student123
-
-Create:
-
-Category:
-DOCUMENTS
-
-Subject:
-Bonafide certificate request
-
-Description:
-I need a bonafide certificate for my internship application.
-
-Priority:
-HIGH
-
-Expected:
-
-Status: OPEN
-Priority: HIGH
-SLA: 24 hours
-Step 2 — Staff
-
-Logout and login:
-
-staff@edusupport.com
-staff123
-
-Open the newly created ticket.
-
-Assign:
-
-Staff #3
-
-The ticket becomes:
-
-OPEN
- ↓
-ASSIGNED
-
-Continue:
-
-ASSIGNED
- ↓
-IN_PROGRESS
- ↓
-PENDING
- ↓
-RESOLVED
- ↓
-CLOSED
-
-The activity history should reflect these operations.
-
-Step 3 — Manager
-
-Logout and login:
-
-manager@edusupport.com
-manager123
-
-Review:
-
-Total Tickets
-Open
-In Progress
-Pending
-Resolved
-Overdue
-
-Then open a ticket and inspect:
-
-Status
-Priority
-Assignment
-SLA
-Due Date
-Activity History
-9.4 Prerequisites
-
-The following software is required:
+Prerequisites
 
 Python 3.x
-Node.js
-npm
+
+Node.js and npm
+
 Docker Desktop
-9.5 Start PostgreSQL
+
+1. Start PostgreSQL
 
 From the project root:
 
 docker compose up -d
 
-The Docker PostgreSQL configuration is:
+Database configuration:
 
-Database:
-edusupport
+Database: edusupport
+Username: edusupport_user
+Password: edusupport_password
+Host Port: 5433
+Container Port: 5432
 
-Username:
-edusupport_user
+Port 5433 is used on the host to avoid conflict with another
+PostgreSQL service using port 5432.
 
-Password:
-edusupport_password
-
-Host Port:
-5433
-
-Container Port:
-5432
-
-Port 5433 is used on the host so that the project's PostgreSQL instance does not interfere with another PostgreSQL service using port 5432.
-
-9.6 Start Backend
-
-Open a terminal:
+2. Start Backend
 
 cd backend
-
-Activate the virtual environment on Windows:
-
 venv\Scripts\activate
-
-Install dependencies:
-
 pip install -r requirements.txt
-
-Start FastAPI:
-
 uvicorn app.main:app --reload
 
 Backend:
 
 http://127.0.0.1:8000
 
-Health endpoint:
+Health check:
 
 http://127.0.0.1:8000/health
 
-Swagger API documentation:
+API documentation:
 
 http://127.0.0.1:8000/docs
-9.7 Start Frontend
+
+3. Start Frontend
 
 Open another terminal:
 
 cd frontend
-
-Install dependencies:
-
 npm install
-
-Start Vite:
-
 npm run dev
 
 Frontend:
 
 http://localhost:5173
-9.8 Demo Credentials
-Student
-Email:
-student@edusupport.com
 
-Password:
-student123
-Staff
-Email:
-staff@edusupport.com
+11. Demo Credentials
 
-Password:
-staff123
-Manager
-Email:
-manager@edusupport.com
+Role      Email                      Password
 
-Password:
-manager123
+Student   student@edusupport.com   student123
+Staff     staff@edusupport.com     staff123
+Manager   manager@edusupport.com   manager123
 
-These credentials are intended only for local demonstration of the assignment prototype.
+These credentials are intended for local demonstration of the assignment
+prototype.
 
-9.9 Final Project Summary
+12. Project Structure
 
-EduSupport provides an end-to-end student support workflow.
+Edu Support/
+├── backend/
+│   ├── app/
+│   │   ├── core/
+│   │   ├── models/
+│   │   ├── routers/
+│   │   ├── schemas/
+│   │   └── main.py
+│   └── requirements.txt
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   └── vite.config.js
+│
+├── docker-compose.yml
+├── README.md
+├── AI_USAGE_REPORT.md
+└── .gitignore
 
-                     STUDENT
-                        |
-                        | Create Request
-                        v
-                      OPEN
-                        |
-                        | Assign
-                        v
-                    ASSIGNED
-                        |
-                        v
-                  IN_PROGRESS
-                        |
-                        v
-                    PENDING
-                        |
-                        v
-                   RESOLVED
-                        |
-                        v
-                    CLOSED
+Final Summary
 
-During this lifecycle, the system maintains:
+EduSupport provides an end-to-end student support workflow:
+
+STUDENT
+   ↓
+Create Request
+   ↓
+OPEN
+   ↓
+ASSIGNED
+   ↓
+IN_PROGRESS
+   ↓
+PENDING
+   ↓
+RESOLVED
+   ↓
+CLOSED
+
+Throughout the lifecycle, the system maintains:
 
 Ownership
-Priority
-SLA
-Due Date
-Status
+
 Assignment
-Activity History
-Resolution
-Closure
-Management Visibility
 
-The final solution provides a practical full-stack implementation using:
+Priority
 
-React
-   +
+SLA
+
+Due date
+
+Status
+
+Activity history
+
+Resolution and closure
+
+Management visibility
+
+The project uses:
+
+React + Vite
+      +
 FastAPI
-   +
+      +
 SQLAlchemy
-   +
+      +
 PostgreSQL
-   +
+      +
 Docker
 
-The implementation focuses on solving the core support-management problem while deliberately avoiding unnecessary infrastructure complexity.
-
-The system is structured so that additional production capabilities such as notifications, automated escalation, advanced reporting, dynamic staff assignment and institutional integrations can be added later without changing the core ticket model.
-
-
-**This is the proper complete README, bro.** Every section has actual content now—from `1.1` all the way through `9.9`; there are no placeholder headings.
-
-And as requested, **I have deliberately left the AI Usage Report out**. We can add that later as a separate section/file after the README itself is finalized.
+The implementation focuses on the core support-management problem while
+keeping the architecture simple enough to build, test, demonstrate, and
+extend.

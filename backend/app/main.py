@@ -46,7 +46,14 @@ def seed_demo_users():
                 .first()
             )
 
-            if not existing_user:
+            if existing_user:
+                # Reset demo user details and password on startup
+                existing_user.name = demo["name"]
+                existing_user.password_hash = hash_password(demo["password"])
+                existing_user.role = demo["role"]
+                existing_user.department = demo.get("department")
+
+            else:
                 user = User(
                     name=demo["name"],
                     email=demo["email"],
@@ -57,6 +64,7 @@ def seed_demo_users():
                 db.add(user)
 
         db.commit()
+
     finally:
         db.close()
 

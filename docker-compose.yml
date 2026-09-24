@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: edusupport-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: edusupport
+      POSTGRES_USER: edusupport_user
+      POSTGRES_PASSWORD: edusupport_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
